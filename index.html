@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطة: من تحت الصفر إلى فوق الخدّام</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        .task-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .week-btn.active {
+            background-color: #2563eb; /* bg-blue-600 */
+            color: white;
+            font-weight: 700;
+        }
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        .task-item input {
+            margin-top: 6px;
+        }
+        .task-item label {
+            margin-right: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">خطة: "من تحت الصفر إلى فوق الخدّام"</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">خطتك الشهرية لتطوير اللغة والمهارات الشخصية</p>
+        </header>
+
+        <!-- Week Navigation -->
+        <nav class="flex justify-center flex-wrap gap-2 mb-8" id="week-navigation">
+            <button data-week="1" class="week-btn px-4 py-2 rounded-md transition-colors duration-200 bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-700">الأسبوع الأول</button>
+            <button data-week="2" class="week-btn px-4 py-2 rounded-md transition-colors duration-200 bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-700">الأسبوع الثاني</button>
+            <button data-week="3" class="week-btn px-4 py-2 rounded-md transition-colors duration-200 bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-700">الأسبوع الثالث</button>
+            <button data-week="4" class="week-btn px-4 py-2 rounded-md transition-colors duration-200 bg-white dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-gray-700">الأسبوع الرابع</button>
+        </nav>
+
+        <!-- Content Area -->
+        <main id="content-area">
+            <!-- Content will be dynamically inserted here -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-gray-500 dark:text-gray-400 text-sm">
+            <p>تم التصميم لمساعدتك على تحقيق أهدافك. بالتوفيق!</p>
+        </footer>
+    </div>
+
+    <script>
+        const planData = {
+            week1: {
+                title: 'الأسبوع الأول: البداية من الحضيض',
+                days: [
+                    { day: 'الاثنين', language: 'Duolingo + 10 كلمات جديدة', skill: 'شاهد فيديو عن مهارة تحبها (مثلاً نجارة، برمجة، طبخ)', notes: 'خذ ورقة ودوّن ليش تبغى تغير حياتك' },
+                    { day: 'الثلاثاء', language: 'استماع لفيديو من BBC Learning English', skill: 'اقرأ مقال بسيط عن الهجرة أو كندا', notes: 'لا تقارن نفسك بأحد' },
+                    { day: 'الأربعاء', language: 'شوف مسلسل مترجم (حلقة واحدة) ودوّن 5 كلمات جديدة', skill: 'جرّب تشرح اللي فهمته بصوتك (حتى لو لحالك)', notes: 'اسمّع صوتك لنفسك… غبي؟ بس فعال' },
+                    { day: 'الخميس', language: 'Duolingo + اقرأ قصة أطفال', skill: 'سجل صوتك وانت تحكي يومك بالإنجليزي', notes: 'هذا التمرين يفضحك بس يعلمك' },
+                    { day: 'الجمعة', language: 'اختبر نفسك: كم كلمة تتذكر؟', skill: 'تابع كورس مجاني (Coursera / YouTube) عن شيء مهني', notes: 'حدد 3 أشياء سويتها صح هذا الأسبوع' },
+                    { day: 'السبت', language: 'فيديو YouTube تعليمي + راجع كلمات الأسبوع', skill: 'لا شي جديد، بس كرر وراجع', notes: 'راحة مع مراجعة خفيفة' },
+                    { day: 'الأحد', language: 'لا لغة، بس اشحن نفسك: شوف فيديو تحفيزي (بالإنجليزي)', skill: 'امشِ أو ريّح، بس لا تسهر على خرابيط', notes: 'ما راح تموت لو أخذت راحة ذكية' }
+                ]
+            },
+            week2: {
+                title: 'الأسبوع الثاني: نبدأ نتحرّك',
+                intro: `
+                    <p class="mb-2">نفس جدول الأسبوع الأول، مع التعديلات التالية:</p>
+                    <ul class="list-disc list-inside bg-blue-50 dark:bg-gray-800 p-4 rounded-lg">
+                        <li>زوّد وقت اللغة إلى <strong>45 دقيقة</strong> يومياً.</li>
+                        <li>كل يوم اكتب <strong>جملة كاملة</strong> عن شي صار معك.</li>
+                        <li>جرّب تبدأ تمشي في دورة واحدة من <strong>كورس مهني</strong> (كهرباء، تصميم، برمجة...).</li>
+                    </ul>
+                `,
+                days: 'same_as_week_1'
+            },
+            week3: {
+                title: 'الأسبوع الثالث: أنت رسميًا "مبتدئ حقيقي" الآن',
+                tasks: [
+                    'جرب تكتب محادثة بسيطة بين شخصين.',
+                    'تقدر تطبّق على كورسات مهارات من futurelearn.com أو alison.com مجانًا.',
+                    'احفظ 20 كلمة بالأسبوع، موزعة على الأيام.',
+                    'يومياً: Duolingo + استماع + تمرين كتابة بسيط.'
+                ]
+            },
+            week4: {
+                title: 'الأسبوع الرابع: ترتيب روتين ثابت',
+                tasks: [
+                    'خلك واقعي: عدل الجدول حسب طاقتك.',
+                    'راجع وش أنجزت من اللغة.',
+                    'اختبر نفسك (فيه اختبارات مستوى أونلاين مثل EF SET).',
+                    'وسّع وقت التعلّم إلى ساعة كاملة (لو تقدر).',
+                    'جرّب تكتب سيرتك الذاتية بالإنجليزي — حتى لو فاضية شوي.'
+                ]
+            }
+        };
+
+        const contentArea = document.getElementById('content-area');
+        const weekNavigation = document.getElementById('week-navigation');
+        let currentWeek = 1;
+
+        function renderDayCard(dayData, weekNum, dayIndex) {
+            const langId = `w${weekNum}-d${dayIndex}-lang`;
+            const skillId = `w${weekNum}-d${dayIndex}-skill`;
+            const isLangChecked = localStorage.getItem(langId) === 'true' ? 'checked' : '';
+            const isSkillChecked = localStorage.getItem(skillId) === 'true' ? 'checked' : '';
+
+            return `
+                <div class="task-card bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 flex flex-col">
+                    <h3 class="text-xl font-bold text-blue-600 dark:text-blue-400 mb-4">${dayData.day}</h3>
+                    <div class="flex-grow space-y-4">
+                        <div class="task-item">
+                            <input type="checkbox" id="${langId}" data-task-id="${langId}" class="form-checkbox h-5 w-5 text-green-500 rounded focus:ring-0" ${isLangChecked}>
+                            <label for="${langId}" class="flex-1">
+                                <strong class="block">📚 اللغة (30 دقيقة)</strong>
+                                <span class="text-gray-600 dark:text-gray-400">${dayData.language}</span>
+                            </label>
+                        </div>
+                        <div class="task-item">
+                             <input type="checkbox" id="${skillId}" data-task-id="${skillId}" class="form-checkbox h-5 w-5 text-green-500 rounded focus:ring-0" ${isSkillChecked}>
+                            <label for="${skillId}" class="flex-1">
+                                <strong class="block">🛠️ مهارة/شغل (30 دقيقة)</strong>
+                                <span class="text-gray-600 dark:text-gray-400">${dayData.skill}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <p class="text-sm text-gray-500"><strong class="text-yellow-500">💡 ملاحظات نفسية:</strong> ${dayData.notes}</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderTaskList(tasks, weekNum) {
+            return tasks.map((task, index) => {
+                const taskId = `w${weekNum}-t${index}`;
+                const isChecked = localStorage.getItem(taskId) === 'true' ? 'checked' : '';
+                return `
+                    <li class="flex items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-3">
+                        <input type="checkbox" id="${taskId}" data-task-id="${taskId}" class="form-checkbox h-5 w-5 text-green-500 rounded focus:ring-0 ml-4" ${isChecked}>
+                        <label for="${taskId}" class="text-gray-700 dark:text-gray-300 flex-1">${task}</label>
+                    </li>
+                `
+            }).join('');
+        }
+
+        function renderWeek(weekNum) {
+            currentWeek = weekNum;
+            const week = planData[`week${weekNum}`];
+            let content = `<div class="text-center mb-6"><h2 class="text-2xl font-bold">${week.title}</h2></div>`;
+
+            if (week.intro) {
+                content += `<div class="mb-8 text-center">${week.intro}</div>`;
+            }
+
+            if (week.days) {
+                const daysData = week.days === 'same_as_week_1' ? planData.week1.days : week.days;
+                content += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${daysData.map((day, index) => renderDayCard(day, weekNum, index)).join('')}
+                </div>`;
+            } else if (week.tasks) {
+                content += `<ul class="max-w-2xl mx-auto">${renderTaskList(week.tasks, weekNum)}</ul>`;
+            }
+            
+            contentArea.innerHTML = content;
+            updateActiveButton();
+            addCheckboxListeners();
+        }
+
+        function updateActiveButton() {
+            document.querySelectorAll('.week-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.dataset.week) === currentWeek) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        function handleCheckboxClick(event) {
+            if (event.target.type === 'checkbox') {
+                const taskId = event.target.dataset.taskId;
+                if (taskId) {
+                    localStorage.setItem(taskId, event.target.checked);
+                }
+            }
+        }
+
+        function addCheckboxListeners() {
+            contentArea.removeEventListener('click', handleCheckboxClick);
+            contentArea.addEventListener('click', handleCheckboxClick);
+        }
+
+        weekNavigation.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const weekNum = parseInt(e.target.dataset.week);
+                renderWeek(weekNum);
+            }
+        });
+
+        // Initial render
+        renderWeek(1);
+    </script>
+
+</body>
+</html>
